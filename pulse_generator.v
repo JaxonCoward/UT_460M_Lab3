@@ -24,7 +24,8 @@ module pulse_generator(
     input CLK,
     input START, 
     input [1:0]MODE,
-    output OUT
+    output OUT,
+    output [7:0]SECONDS
     );
     
     reg pulse;
@@ -34,6 +35,7 @@ module pulse_generator(
     reg [7:0]seconds_passed;
 
     assign OUT = pulse;
+    assign SECONDS = seconds_passed;
 
     initial begin
         pulse = 0;
