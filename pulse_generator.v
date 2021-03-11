@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module exc3_dataflow(
+module pulse_generator(
     input CLK,
     input START, 
     input [1:0]MODE,
