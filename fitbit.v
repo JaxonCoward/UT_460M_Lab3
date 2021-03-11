@@ -25,13 +25,13 @@ module fitbit(
     input START,
     input RESET,
     input [1:0]MODE,
-    output reg SI
+
+    output reg SI,
+    output reg [31:0]step_count,
+    output reg [31:0]distance_covered,
+    output reg [3:0]initial_activity_count,
+    output reg [31:0]high_activity_time
     );
-    
-    reg [31:0]step_count;
-    reg [31:0]distance_covered;
-    reg [3:0]initial_activity_count;
-    reg [31:0]high_activity_time;
 
     reg low_received;
 
