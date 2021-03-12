@@ -25,14 +25,14 @@ module pulse_generator(
     input START, 
     input [1:0]MODE,
     output OUT,
-    output [7:0]SECONDS
+    output [15:0]SECONDS
     );
     
     reg pulse;
     reg [31:0]counter;
 
     reg [31:0]second_counter;
-    reg [7:0]seconds_passed;
+    reg [15:0]seconds_passed;
 
     assign OUT = pulse;
     assign SECONDS = seconds_passed;
@@ -49,9 +49,7 @@ module pulse_generator(
         second_counter <= second_counter + 1;
 
         if(second_counter == 200000000)begin
-            if(seconds_passed < 145)begin
-                seconds_passed <= seconds_passed + 1;
-            end
+            seconds_passed <= seconds_passed + 1;
         end
 
         if(!START) begin
