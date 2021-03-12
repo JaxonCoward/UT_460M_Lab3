@@ -44,7 +44,7 @@ module fitbit(
     reg [11:0]distance_counter;
 
     //Initial counter
-    reg [11:0]pulses_second
+    reg [11:0]pulses_second;
     reg [15:0]last_second;
 
     //High activity counter
