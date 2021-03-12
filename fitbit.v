@@ -26,15 +26,17 @@ module fitbit(
     input RESET,
     input [1:0]MODE,
 
-    output reg SI,
-    output reg [31:0]step_count,
-    output reg [15:0]distance_covered,//fixed point, 1 digit
-    output reg [3:0]initial_activity_count,
-    output reg [15:0]high_activity_time
+    output reg SI
+    output [31:0]count,
+    output [3:0]an,
+    output [6:0]seg
     );
-
     
-
+    reg [31:0]step_count;
+    reg [15:0]distance_covered;//fixed point, 1 digit
+    reg [3:0]initial_activity_count;
+    reg [15:0]high_activity_time;
+    
     pulse_generator step_input(CLK, START, MODE, pulse, current_second);
 
     //Step counter 
@@ -89,6 +91,8 @@ module fitbit(
             initial_counter <= initial_counter + 1;
             if(current_second > last_second)begin
                 last_second <= current_second;
+                initial_counter <= 0;
+
                 if(initial_counter > 32)begin
                     initial_activity_count <= initial_activity_count + 1;
                 end
