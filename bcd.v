@@ -21,7 +21,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module bcd(
-    input [3:0] num ,
+    input [3:0] num,
     output [6:0] seg
     );
     
@@ -29,7 +29,7 @@ module bcd(
     assign seg = sseg;
     
     always @(*) begin
-        case(sw)
+        case(num)
         4'b0000: sseg = 7'b1000_000;        //  0
         4'b0001: sseg = 7'b1111_001;        //  1
         4'b0010: sseg = 7'b0100_100;        //  2
