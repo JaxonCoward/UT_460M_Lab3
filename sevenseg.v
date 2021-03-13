@@ -27,6 +27,7 @@ module sevenseg(
   input [15:0] distance_covered,
   input [3:0]initial_activity_count,
   input [15:0]high_activity_time,
+  input [1:0]output_mode,
   output [3:0] an,
   output [6:0] seg
 ); 
@@ -36,10 +37,12 @@ reg [3:0] bcd_steps = 0; // Input to BCD, output directly tied to seg
 reg [3:0] bcd_distance = 0;
 reg [3:0] bcd_init_count = 0;
 reg [3:0] bcd_high_activity = 0;
-bcd steps (bcd_steps, seg);
-bcd distance (bcd_distance, seg);
-bcd init_count (bcd_init_count, seg);
-bcd high_activity (bcd_high_activity, seg);
+bcd steps (bcd_steps, out_steps);
+bcd distance (bcd_distance, out_distance);
+bcd init_count (bcd_init_count, out_init_count);
+bcd high_activity (bcd_high_activity, out_high_activity);
+
+assign seg = (output_mode[1]) ? ((output_mode[0]) ? out_high_activity: out_init_count) : ((output_mode[0]) ? out_distance: out_steps);
 
 
 // Clock divider - Divide-by-2

@@ -32,12 +32,13 @@ module top(
     wire [15:0]distance_covered;//fixed point, 1 digit
     wire [3:0]initial_activity_count;
     wire [15:0]high_activity_time;
+    wire [1:0]output_mode;
 
     wire start = sw[0];
     wire reset = sw[1];
     wire [1:0]mode = sw[3:2];
 
-    fitbit(clk, start, start, mode, led[0], step_count, distance_covered, initial_activity_count, high_activity_time);
+    fitbit(clk, start, start, mode, led[0], step_count, distance_covered, initial_activity_count, high_activity_time, output_mode);
 
-    sevenseg(clk, reset, step_count, distance_covered, initial_activity_count, high_activity_time, an, seg); 
+    sevenseg(clk, reset, step_count, distance_covered, initial_activity_count, high_activity_time, output_mode, an, seg); 
 endmodule

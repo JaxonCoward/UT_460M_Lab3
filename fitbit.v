@@ -30,7 +30,8 @@ module fitbit(
     output reg [31:0]step_count,
     output reg [15:0]distance_covered,//fixed point, 1 digit
     output reg [3:0]initial_activity_count,
-    output reg [15:0]high_activity_time
+    output reg [15:0]high_activity_time,
+    output reg [1:0]output_mode
     );
 
     
@@ -56,6 +57,7 @@ module fitbit(
         distance_covered = 0;
         initial_activity_count = 0;
         high_activity_time = 0;
+        output_mode = 0;
 
         low_received = 1;
         distance_counter = 0;
@@ -72,6 +74,7 @@ module fitbit(
             distance_covered = 0;
             initial_activity_count = 0;
             high_activity_time = 0;
+            output_mode = 0;
 
             low_received = 1;
             distance_counter = 0;
@@ -107,6 +110,11 @@ module fitbit(
             if(current_second > last_second)begin
                 last_second <= current_second;
                 pulses_second <= 0;
+
+                //OUTPUT MODE
+                if(!(current_second % 2))begin
+                    output_mode <= output_mode + 1;
+                end
                 
                 //INITIAL ACTIVITY COUNT
                 if((pulses_second > 32) && (current_second < 10))begin
