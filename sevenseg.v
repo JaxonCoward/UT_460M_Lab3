@@ -25,12 +25,17 @@ module sevenseg(
   input reset,
   input [31:0] step_count,
   input [15:0] distance_covered,
-  input [3:0]initial_activity_count,
+  input [3:0] initial_activity_count,
   input [15:0]high_activity_time,
   input [1:0]output_mode,
   output [3:0] an,
   output [6:0] seg
 ); 
+
+wire [6:0] out_steps;
+wire [6:0] out_distance;
+wire [6:0] out_init_count;
+wire [6:0] out_high_activity;
 
 // BCD instantiation
 reg [3:0] bcd_steps = 0; // Input to BCD, output directly tied to seg
