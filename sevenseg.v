@@ -50,8 +50,8 @@ bcd high_activity (clk, bcd_high_activity, out_high_activity);
 
 
 // Clock divider - Divide-by-2
-reg count = 0;
-wire slow_clk = count;
+reg [15:0] count = 0;
+wire slow_clk = count[15];
 
 
 // State register variables
