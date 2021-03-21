@@ -74,7 +74,7 @@ always @(*) begin
                 bcd_steps = ((step_count % 1000) % 100) % 10;
             
                 //bcd input for distance covered
-                if(distance_covered % 2 == 0) begin
+                if(distance_covered[0] == 0) begin
                     bcd_distance = 0;
                 end
                 else begin
