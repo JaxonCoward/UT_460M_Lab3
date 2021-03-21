@@ -31,11 +31,14 @@ module fitbit(
     output reg [15:0]distance_covered,//fixed point, 1 digit
     output reg [3:0]initial_activity_count,
     output reg [15:0]high_activity_time,
-    output reg [1:0]output_mode
+    output [1:0]output_mode
     );
     
-//    wire pulse;
-//    wire [15:0] current_second;
+    wire pulse;
+    wire [15:0] current_second;
+
+    reg [2:0]output_mode_counter;
+    assign output_mode = output_mode_counter[2:1];
 
     pulse_generator step_input(
         .CLK        (CLK),
@@ -64,30 +67,29 @@ module fitbit(
         distance_covered = 0;
         initial_activity_count = 0;
         high_activity_time = 0;
-        output_mode = 0;
 
         low_received = 1;
         distance_counter = 0;
         pulses_second = 0;
         last_second = 0;
         current_high_activity_time = 0;
+        output_mode_counter = 0;
     end
 
     always @(posedge CLK) begin
 
         if(RESET)begin
-            SI = 0;
-            step_count = 0;
-            distance_covered = 0;
-            initial_activity_count = 0;
-            high_activity_time = 0;
-            output_mode = 0;
+            SI <= 0;
+            step_count <= 0;
+            distance_covered <= 0;
+            initial_activity_count <= 0;
+            high_activity_time <= 0;
 
-            low_received = 1;
-            distance_counter = 0;
-            pulses_second = 0;
-            last_second = 0;
-            current_high_activity_time = 0;
+            low_received <= 1;
+            distance_counter <= 0;
+            pulses_second <= 0;
+            last_second <= 0;
+            current_high_activity_time <= 0;
         end
         else begin
             //STEP COUNT
@@ -118,10 +120,7 @@ module fitbit(
                 last_second <= current_second;
                 pulses_second <= 0;
 
-                //OUTPUT MODE
-                if(!(current_second % 2))begin
-                    output_mode <= output_mode + 1;
-                end
+                output_mode_counter <= output_mode_counter + 1;
                 
                 //INITIAL ACTIVITY COUNT
                 if((pulses_second > 32) && (current_second < 10))begin

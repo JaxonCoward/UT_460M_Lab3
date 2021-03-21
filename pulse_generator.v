@@ -60,25 +60,25 @@ module pulse_generator(
         end
         else begin
             case (MODE)
-                00: begin
+                2'b00: begin
                         if(counter == 1562500) begin //1562500 = 32 pulses per second (1/2x)/10ns
                             pulse <= pulse ^ 1;
                             counter <= 0;
                         end
                     end
-                01: begin
+                2'b01: begin
                         if(counter == 781250) begin //781250 = 64 pulses per second (1/2x)/10ns
                             pulse <= pulse ^ 1;
                             counter <= 0;
                         end
                     end
-                10: begin
+                2'b10: begin
                         if(counter == 390625) begin //390625 = 128 pulses per second (1/2x)/10ns
                             pulse <= pulse ^ 1;
                             counter <= 0;
                         end
                     end
-                11: begin
+                2'b11: begin
                         if(seconds_passed < 1)begin
                             if(counter == 10000000) begin //10000000 = 20 pulses per second (1/2x)/10ns
                                 pulse <= pulse ^ 1;
