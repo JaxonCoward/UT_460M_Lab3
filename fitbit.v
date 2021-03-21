@@ -33,10 +33,17 @@ module fitbit(
     output reg [15:0]high_activity_time,
     output reg [1:0]output_mode
     );
-
     
+//    wire pulse;
+//    wire [15:0] current_second;
 
-    pulse_generator step_input(CLK, START, MODE, pulse, current_second);
+    pulse_generator step_input(
+        .CLK        (CLK),
+        .START      (START),
+        .MODE       (MODE),
+        .OUT        (pulse),
+        .SECONDS    (current_second)
+    );
 
     //Step counter 
     reg low_received;
@@ -136,8 +143,5 @@ module fitbit(
                 end
             end
         end
-    end
-
-    
-    
+    end  
 endmodule

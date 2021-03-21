@@ -44,8 +44,8 @@ set_property PACKAGE_PIN W17 [get_ports {sw[3]}]
  
 
 # ## LEDs
-set_property PACKAGE_PIN U16 [get_ports {led[0]}]					
-	set_property IOSTANDARD LVCMOS33 [get_ports {led[0]}]
+set_property PACKAGE_PIN U16 [get_ports {SI}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {SI}]
 # set_property PACKAGE_PIN E19 [get_ports {led[1]}]					
 # 	set_property IOSTANDARD LVCMOS33 [get_ports {led[1]}]
 # set_property PACKAGE_PIN U19 [get_ports {led[2]}]					
@@ -292,4 +292,3 @@ set_property PACKAGE_PIN W4 [get_ports {an[3]}]
 	#set_property IOSTANDARD LVCMOS33 [get_ports {QspiDB[3]}]
 #set_property PACKAGE_PIN K19 [get_ports QspiCSn]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports QspiCSn]
-
