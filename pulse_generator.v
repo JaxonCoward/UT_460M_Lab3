@@ -48,8 +48,9 @@ module pulse_generator(
         counter <= counter + 1;
         second_counter <= second_counter + 1;
 
-        if(second_counter == 200000000)begin
+        if(second_counter == 100000000)begin
             seconds_passed <= seconds_passed + 1;
+            second_counter <= 0;
         end
 
         if(!START) begin

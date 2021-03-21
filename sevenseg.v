@@ -104,6 +104,8 @@ always @(posedge clk) begin
             
                 //bcd input for distance covered
                 bcd_distance <= 10;      //number corresponding to underscore in bcd.v
+
+                bcd_init_count <= 0;
                 
                 //bcd input for high activity time
                 bcd_high_activity <= ((high_activity_time % 1000) % 100) / 10;
@@ -118,6 +120,8 @@ always @(posedge clk) begin
                 
                 //bcd input for distance covered
                 bcd_distance <=  (distance_covered / 2) % 10;
+
+                bcd_init_count <= 0;
                 
                 //bcd input for high activity time
                 bcd_high_activity <= (high_activity_time % 1000) / 100;
@@ -128,13 +132,16 @@ always @(posedge clk) begin
         3:begin
         
                 //bcd input for step count
-                bcd_steps <= step_count/1000;
+                bcd_steps <= (step_count % 10000)/1000;
                 
                  //bcd input for distance covered
                 bcd_distance <=  (distance_covered / 2) / 10;
+
+                bcd_init_count <= 0;
                 
                 //bcd input for high activity time
-                bcd_high_activity <= high_activity_time /1000;
+
+                bcd_high_activity <= (high_activity_time % 10000) /1000;
                 
                 an_buf <= 4'b0111;
                 next <= 0;
