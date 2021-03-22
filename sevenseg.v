@@ -93,14 +93,11 @@ always @(posedge clk) begin
                 end
                 
                 //bcd input for distance covered
-                if(distance_covered == 0) begin
-                    bcd_distance <= 0;
-                end
-                else if((distance_covered % 2) == 0) begin
-                    bcd_distance <= 0;
+                if(distance_covered[0]) begin
+                    bcd_distance <= 5;
                 end
                 else begin
-                    bcd_distance <= 5;
+                    bcd_distance <= 0;
                 end
 
               
@@ -145,7 +142,7 @@ always @(posedge clk) begin
                 end
                 
                 //bcd input for distance covered
-                bcd_distance <=  (distance_covered / 2) % 10;
+                bcd_distance <=  (distance_covered >> 1) % 10;
                 
                 bcd_init_count <= 0;
                 
@@ -167,7 +164,7 @@ always @(posedge clk) begin
                 
                  //bcd input for distance covered
                
-                bcd_distance <=  (distance_covered / 2) / 10;
+                bcd_distance <=  ((distance_covered >> 1) % 100) / 10;
 
                 bcd_init_count <= 0;
                 
