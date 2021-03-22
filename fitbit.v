@@ -98,6 +98,7 @@ module fitbit(
                 low_received <= 0;
                 step_count <= step_count + 1;
                 distance_counter <= distance_counter + 1;
+                pulses_second <= pulses_second + 1;
             end
             else if(!low_received && !pulse)begin
                 low_received <= 1;
@@ -114,7 +115,6 @@ module fitbit(
             end
 
             //Count Pulses per second
-            pulses_second <= pulses_second + 1;
             if(current_second > last_second)begin
                 last_second <= current_second;
                 pulses_second <= 0;
