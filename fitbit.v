@@ -42,6 +42,7 @@ module fitbit(
 
     pulse_generator step_input(
         .CLK        (CLK),
+        .RESET      (RESET),
         .START      (START),
         .MODE       (MODE),
         .OUT        (pulse),
