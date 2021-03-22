@@ -54,6 +54,7 @@ module top(
     sevenseg ss(
         .clk                    (clk),
         .reset                  (reset),
+        .SI                     (SI),
         .step_count             (step_count),
         .distance_covered       (distance_covered),
         .initial_activity_count (initial_activity_count),
