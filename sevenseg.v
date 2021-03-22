@@ -23,6 +23,7 @@
 module sevenseg(
   input clk,
   input reset,
+  input SI,
   input [31:0] step_count,
   input [15:0] distance_covered,
   input [3:0] initial_activity_count,
@@ -32,16 +33,17 @@ module sevenseg(
   output reg [6:0] seg
 ); 
 
+// BCD instantiation
 wire [6:0] out_steps;
 wire [6:0] out_distance;
 wire [6:0] out_init_count;
 wire [6:0] out_high_activity;
 
-// BCD instantiation
 reg [3:0] bcd_steps = 0; // Input to BCD, output directly tied to seg
 reg [3:0] bcd_distance = 0;
 reg [3:0] bcd_init_count = 0;
 reg [3:0] bcd_high_activity = 0;
+
 bcd steps (clk, bcd_steps, out_steps);
 bcd distance (clk, bcd_distance, out_distance);
 bcd init_count (clk, bcd_init_count, out_init_count);
@@ -64,8 +66,13 @@ always @(posedge slow_clk) current <= next;
 // Combinational logic
 reg [3:0] an_buf = 0;
 assign an = an_buf;
+
+
+ 
 always @(posedge clk) begin
     count <= count + 1;
+    
+    
     seg <= (output_mode[1]) ? ((output_mode[0]) ? out_high_activity: out_init_count) : ((output_mode[0]) ? out_distance: out_steps);
 
     if(reset) begin // Synchronous reset
@@ -78,16 +85,25 @@ always @(posedge clk) begin
         0: begin // state 0
         
                 //bcd input for step count
-                bcd_steps <= ((step_count % 1000) % 100) % 10;
-            
+                if(SI)begin
+                    bcd_steps <= 9;
+                end
+                else begin
+                    bcd_steps <= ((step_count % 1000) % 100) % 10;
+                end
+                
                 //bcd input for distance covered
-                if(distance_covered[0] == 0) begin
+                if(distance_covered == 0) begin
+                    bcd_distance <= 0;
+                end
+                else if((distance_covered % 2) == 0) begin
                     bcd_distance <= 0;
                 end
                 else begin
                     bcd_distance <= 5;
                 end
-                
+
+              
                 //bcd input for intial activity time over 32 steps/sec
                 bcd_init_count <= initial_activity_count;
                 
@@ -100,8 +116,13 @@ always @(posedge clk) begin
         1: begin // state 1
         
                 //bcd input for step count
-                bcd_steps <= ((step_count % 1000) % 100)/10;
-            
+                if(SI)begin
+                    bcd_steps <= 9;
+                end
+                else begin
+                    bcd_steps <= ((step_count % 1000) % 100)/10;
+                end
+                
                 //bcd input for distance covered
                 bcd_distance <= 10;      //number corresponding to underscore in bcd.v
 
@@ -116,11 +137,16 @@ always @(posedge clk) begin
         2:begin
         
                 //bcd input for step count
-                bcd_steps <= (step_count % 1000)/100;
+                if(SI)begin
+                    bcd_steps <= 9;
+                end
+                else begin
+                    bcd_steps <= (step_count % 1000)/100;
+                end
                 
                 //bcd input for distance covered
                 bcd_distance <=  (distance_covered / 2) % 10;
-
+                
                 bcd_init_count <= 0;
                 
                 //bcd input for high activity time
@@ -132,9 +158,15 @@ always @(posedge clk) begin
         3:begin
         
                 //bcd input for step count
-                bcd_steps <= (step_count % 10000)/1000;
+                if(SI)begin
+                    bcd_steps <= 9;
+                end
+                else begin
+                    bcd_steps <= (step_count % 10000)/1000;
+                end
                 
                  //bcd input for distance covered
+               
                 bcd_distance <=  (distance_covered / 2) / 10;
 
                 bcd_init_count <= 0;
